@@ -1,2 +1,2 @@
-# team_dev_hh_group_9
+# Head Hunter
 Реализация веб приложения сходного по функционалу с ресурсом HeadHunter
