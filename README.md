@@ -8,4 +8,4 @@
 
 
 Соискатели
-Логин vanager@mmm.mm Пароль mmm
+Логин manager@mmm.mm Пароль mmm
