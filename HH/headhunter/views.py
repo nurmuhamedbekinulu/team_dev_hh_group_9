@@ -1,9 +1,9 @@
-from urllib.parse import urlencode
-from django.db.models import Q
+from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import ListView, CreateView, DetailView, UpdateView
 from .models import Vacancy
 from .forms import VacancyForm
 from django.urls import reverse
+from django.utils import timezone
 
 
 # Create your views here.
@@ -38,3 +38,11 @@ class VacancyUpdate(UpdateView):
 
     def get_success_url(self):
         return reverse('vacancy_detail', kwargs={'pk': self.object.pk})
+
+
+def vacancy_renew(request, *args, **kwargs):
+    vacancy = get_object_or_404(Vacancy, pk=kwargs['pk'])
+    vacancy.updated_at = timezone.now()
+    vacancy.save()
+
+    return redirect('vacancy_detail', pk=kwargs['pk'])

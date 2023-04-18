@@ -95,7 +95,7 @@
                             <p class="udated_vacancy">
                                 Обновлено: <span>{{ v.updated_at }}</span>
                                 {% if user_obj.pk == request.user.pk %}
-                                <a class="reload_btn" href="#">Обновить <i
+                                <a class="reload_btn" href="{% url 'vacancy_renew' v.pk %}">Обновить <i
                                         class="fa-solid fa-rotate"></i></a>
                                 {% endif %}
                             </p>
@@ -128,14 +128,9 @@
 <script>
     window.addEventListener('load', function() {
     let reg_button = $('#register_button');
-    let log_button = $('#login_button');
     let register = $('#registerModal');
-    let login = $('#loginModal');
     reg_button.on('click', function() {
         register[0].style.display = "block";
-    });
-    log_button.on('click', function() {
-        login[0].style.display = "block";
     });
     });
     let registerModal = document.getElementById('registerModal')

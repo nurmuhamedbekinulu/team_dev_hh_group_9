@@ -13,7 +13,7 @@
             <p class="reload_p">Обновлена: <b>{{ vacancy.updated_at|date:"d-m-Y H:i" }} </b>
                 {% if user.is_authenticated %}
                 {% if perms.core.change_vacancy or vacancy.author == request.user %}
-                <a class="reload_btn" href="#">Обновить <i
+                <a class="reload_btn" href="{% url 'vacancy_renew' vacancy.pk%}">Обновить <i
                         class="fa-solid fa-rotate"></i></a>
                 {% endif %}
                 {% endif %}</p>
