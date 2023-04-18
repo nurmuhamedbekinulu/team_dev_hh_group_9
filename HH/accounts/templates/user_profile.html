@@ -18,7 +18,7 @@
                 <p class="user_mail">Роль: <b>{{ user_obj.get_user_role_display }}</b></p>
                 {% if user_obj.user_role == 'Employer' %}
                 {% if user_obj.pk == request.user.pk %}
-                <a href="#" class="genric-btn primary circle">Создать вакансию</a>
+                <a href="{% url 'add_vacancy' %}" class="genric-btn primary circle">Создать вакансию</a>
                 {% endif %}
                 {% else %}
                 {% if user_obj.pk == request.user.pk %}

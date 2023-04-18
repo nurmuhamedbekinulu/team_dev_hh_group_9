@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% load django_bootstrap5 %}
-{% block main_block %}
+{% block content %}
     <div class="slider-area ">
         <!-- Mobile Menu -->
         <div class="slider-active">
@@ -15,13 +15,9 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Search Box -->
+
                     <div class="row">
-                         {% if user.is_authenticated %}
-                            <div class="col-xl-8">
-                                {% include 'partial/search.html' %}
-                            </div>
-                        {% endif %}
+
                     </div>
                 </div>
             </div>
@@ -40,18 +36,34 @@
 
                     </div>
                 {% else %}
-                    <input type="text" hidden value="vacancy" id="id_for_link">
-                    <h3 class="vacancies_title">
-                        Вакансии
-                    </h3>
-                    <div class="filter_block">
-                        {% include 'partial/category_search.html' %}
-                    </div>
-                    <div id="vacancies" class="vacancies_list_block">
+                <input type="text" hidden value="vacancy" id="id_for_link">
+                <h3 class="vacancies_title">
+                    Вакансии
+                </h3>
+                <div class="filter_block">
 
-                    </div>
+                </div>
+                <div id="vacancies" class="vacancies_list_block">
+                    {% for v in vacancy %}
+                        <a href="{% url 'vacancy_detail' v.pk %}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ v.name }}</h5>
+                                <p>{{ v.category }}</p>
+                                <p class="salary_text">{{ v.salary }} KZT</p>
+                                <p id="some_title">Компания
+                                    <a class="company_title" href="{% url 'user_profile' v.author.pk %}">
+                                        {{ v.author.username }}
+                                    </a>
+                                </p>
+                                <p class="udated_vacancy mt-1">
+                                    Опубликовано: <span><b>{{ v.updated_at|date:"d-m-Y H:i" }}</b></span>
+                                </p>
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
                 {% endif %}
-                {% include 'partial/pagination.html' %}
+
             </div>
         </div>
     {% endif %}

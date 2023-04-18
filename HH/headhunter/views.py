@@ -1,6 +1,6 @@
 from urllib.parse import urlencode
 from django.db.models import Q
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, DetailView
 from .models import Vacancy
 from .forms import VacancyForm
 from django.urls import reverse
@@ -24,4 +24,7 @@ class VacancyCreate(CreateView):
 
     def get_success_url(self):
         return reverse('user_profile', kwargs={'pk': self.object.author_id})    
+    
+class VacancyDetail(DetailView):
+    pass
     

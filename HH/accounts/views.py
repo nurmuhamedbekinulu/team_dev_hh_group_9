@@ -30,7 +30,7 @@ class LoginView(TemplateView):
         next = request.GET.get('next')
         if next:
             return redirect(next)
-        return reverse('user_profile', kwargs={'pk': self.object.pk})
+        return redirect('/')
 
 
 class RegisterView(CreateView):
