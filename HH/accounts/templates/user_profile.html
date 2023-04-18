@@ -44,17 +44,17 @@
                             <h5 class="card-title">{{ resume.name }}</h5>
                             <h6 class="card-subtitle mb-2 text-muted">{{ resume.get_category_display }}</h6>
                             <div class=" text-center">
-                                <a href="{% url 'resume_detail' resume.pk %}"
+                                <a href="#"
                                     class="genric-btn primary circle ">Подробнее</a>
-                                <a href="{% url 'download' resume.pk %}"
+                                <a href="#"
                                     class="genric-btn primary circle mt-3">Скачать</a>
                                 {% if user_obj.pk == request.user.pk %}
-                                <a href="{% url 'edit_resume' resume.pk %}"
+                                <a href="#"
                                     class="genric-btn primary circle mt-3">Изменить</a>
                                 {% if resume.is_active is not True %}
-                                <a href="{% url 'hide' resume.pk %}" class="genric-btn primary circle mt-3">Скрыть</a>
+                                <a href="#" class="genric-btn primary circle mt-3">Скрыть</a>
                                 {% else %}
-                                <a href="{% url 'hide' resume.pk %}"
+                                <a href="#"
                                     class="genric-btn primary circle mt-3">Отобразить</a>
                                 {% endif %}
                                 {% endif %}
@@ -62,7 +62,7 @@
                             <p class="udated_vacancy">
                                 Обновлено: <span>{{ resume.updated_at|date:"M d, Y G:i"}}</span>
                                 {% if user_obj.pk == request.user.pk %}
-                                <a class="reload_btn" href="{% url 'update' resume.pk %}">Обновить <i
+                                <a class="reload_btn" href="#">Обновить <i
                                         class="fa-solid fa-rotate"></i></a>
                                 {% endif %}
                             </p>
@@ -85,17 +85,17 @@
                             <h5 class="card-title">{{ v.name }}</h5>
                             <h6 class="card-subtitle mb-2 text-muted">{{ v.get_category_display }}</h6>
                             <div class="btn__block">
-                                <a href="{% url 'vacancy_detail' v.pk %}"
+                                <a href="#"
                                     class="genric-btn primary circle">Подробнее</a>
                                 {% if user_obj.pk == request.user.pk %}
-                                <a href="{% url 'vacancy_update' v.pk %}"
+                                <a href="#"
                                     class="genric-btn primary circle">Редактировать</a>
                                 {% endif %}
                             </div>
                             <p class="udated_vacancy">
                                 Обновлено: <span>{{ v.updated_at }}</span>
                                 {% if user_obj.pk == request.user.pk %}
-                                <a class="reload_btn" href="{% url 'reload' v.pk %}">Обновить <i
+                                <a class="reload_btn" href="#">Обновить <i
                                         class="fa-solid fa-rotate"></i></a>
                                 {% endif %}
                             </p>
