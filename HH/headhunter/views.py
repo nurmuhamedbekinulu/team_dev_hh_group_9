@@ -1,6 +1,6 @@
 from urllib.parse import urlencode
 from django.db.models import Q
-from django.views.generic import ListView, CreateView, DetailView
+from django.views.generic import ListView, CreateView, DetailView, UpdateView
 from .models import Vacancy
 from .forms import VacancyForm
 from django.urls import reverse
@@ -26,5 +26,15 @@ class VacancyCreate(CreateView):
         return reverse('user_profile', kwargs={'pk': self.object.author_id})    
     
 class VacancyDetail(DetailView):
-    pass
+    template_name = "vacancy_detail.html"
+    model = Vacancy
+    context_object_name = "vacancy"
     
+    
+class VacancyUpdate(UpdateView):
+    template_name = "vacancy_update.html"
+    form_class = VacancyForm
+    model = Vacancy
+
+    def get_success_url(self):
+        return reverse('vacancy_detail', kwargs={'pk': self.object.pk})
