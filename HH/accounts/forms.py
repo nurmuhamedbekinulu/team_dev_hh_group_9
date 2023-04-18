@@ -31,3 +31,10 @@ class RegisterForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
+
+class UserChangeForm(forms.ModelForm):
+    class Meta:
+        model = get_user_model()
+        fields = ['email', 'phone_number', 'user_role', 'avatar']
+        labels = {'email': 'Email', 'phone_number': 'Номер телефона', 'role': 'Роль', 'avatar': 'Аватар'}

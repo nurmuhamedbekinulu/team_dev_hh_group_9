@@ -1,6 +1,7 @@
-from django.shortcuts import redirect, reverse
+from django.shortcuts import redirect
+from django.urls import reverse
 from django.views.generic import TemplateView, CreateView, DetailView, UpdateView
-from accounts.forms import LoginForm, RegisterForm
+from accounts.forms import LoginForm, RegisterForm, UserChangeForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -28,7 +29,7 @@ class LoginView(TemplateView):
         next = request.GET.get('next')
         if next:
             return redirect(next)
-        return redirect('/')
+        return reverse('user_profile', kwargs={'pk': self.object.pk})
 
 
 class RegisterView(CreateView):
@@ -51,3 +52,25 @@ class RegisterView(CreateView):
 def logout_view(request):
     logout(request)
     return redirect('/')
+
+
+class UserDetailView( DetailView):
+    model = get_user_model()
+    template_name = "user_profile.html"
+    context_object_name = 'user_obj'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # user = self.get_object()
+        context['change_form'] = UserChangeForm(instance=self.object)
+        return context
+
+
+class UserChangeView(UpdateView):
+    model = get_user_model()
+    form_class = UserChangeForm
+    template_name = 'user_profile.html'
+    context_object_name = 'user_obj'
+
+    def get_success_url(self):
+        return reverse('user_profile', kwargs={'pk': self.object.pk})
