@@ -5,7 +5,7 @@ from accounts.forms import LoginForm, RegisterForm, UserChangeForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
-from headhunter.models import Vacancy
+from headhunter.models import Vacancy, Resume
 
 
 class LoginView(TemplateView):
@@ -64,6 +64,7 @@ class UserDetailView( DetailView):
         context = super().get_context_data(**kwargs)
         user = self.get_object()
         context['vacancy'] = Vacancy.objects.filter(author=user).order_by('-updated_at')
+        context['resumes'] = Resume.objects.filter(author=user).order_by('-updated_at')
         context['change_form'] = UserChangeForm(instance=self.object)
         return context
 

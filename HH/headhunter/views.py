@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import ListView, CreateView, DetailView, UpdateView
-from .models import Vacancy
-from .forms import VacancyForm
+from .models import Vacancy, Resume
+from .forms import VacancyForm, ResumeForm
 from django.urls import reverse
 from django.utils import timezone
 
@@ -12,6 +12,16 @@ class IndexView(ListView):
     paginate_by = 20
     model = Vacancy
     context_object_name = 'vacancy'
+    
+    
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        if self.request.user.is_authenticated:
+            if self.request.user.user_role == 'Employer':
+                queryset = Resume.objects.filter(is_active=True).order_by('-updated_at')
+            else:
+                queryset = Vacancy.objects.filter(is_active=True).order_by('-updated_at')
+        return queryset
 
 class VacancyCreate(CreateView):
     template_name = "vacancy_create.html"
@@ -46,3 +56,29 @@ def vacancy_renew(request, *args, **kwargs):
     vacancy.save()
 
     return redirect('vacancy_detail', pk=kwargs['pk'])
+
+
+class ResumeCreate(CreateView):
+    model = Resume
+
+    def get(self, request, *args, **kwargs):
+        resume = Resume.objects.create(author=request.user)
+        return redirect('resume_update', pk=resume.pk)
+
+
+class ResumeUpdate(UpdateView):
+    model = Resume
+    form_class = ResumeForm
+    template_name = 'resume_update.html'
+    context_object_name = 'resume'
+
+    def get_context_data(self, **kwargs):
+        context = super(ResumeUpdate, self).get_context_data(**kwargs)
+        return context
+
+    def get_success_url(self):
+        return reverse('user_profile', kwargs={'pk': self.object.author_id})
+    
+    
+class ResumeDetail(DetailView):
+    pass

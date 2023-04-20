@@ -31,3 +31,22 @@ class Vacancy(models.Model):
         verbose_name_plural = 'Вакансии'
         ordering = ['-updated_at']
         
+        
+class Resume(models.Model):
+    name = models.CharField(max_length=200, verbose_name='Название резюме', null=True, blank=True)
+    category = models.TextField(verbose_name='Категория вакансии', choices=CATEGORY, null=True, blank=True)
+    about = models.TextField(max_length=3000, verbose_name='О себе')
+    salary = models.DecimalField(verbose_name='Желаемая зарплата', max_digits=10, decimal_places=2, null=True,
+                                 blank=True)
+    email = models.CharField(verbose_name='Email', max_length=100, null=True, blank=True)
+    author = models.ForeignKey(Profile, verbose_name='Соискатель', on_delete=models.CASCADE)
+    phone_number = models.CharField(verbose_name='Номер телефона', max_length=20, null=True, blank=True)
+    updated_at = models.DateTimeField(verbose_name='Последние изменение', auto_now_add=True)
+    is_active = models.BooleanField(verbose_name='Скрыть резюме', default=True)
+    telegram = models.CharField(verbose_name='Ссылка на телеграм', max_length=100, null=True, blank=True)
+    linkedin = models.CharField(verbose_name='Ссылка на Linkedin', max_length=100, null=True, blank=True)
+    facebook = models.CharField(verbose_name='Ссылка на Facebook', max_length=100, null=True, blank=True)
+
+    def __str__(self):
+        return f'{self.author}'
+    

@@ -22,7 +22,7 @@
                 {% endif %}
                 {% else %}
                 {% if user_obj.pk == request.user.pk %}
-                <a href="#" class="genric-btn primary circle">Добавить резюме</a>
+                <a href="{% url 'add_resume' %}" class="genric-btn primary circle">Добавить резюме</a>
                 {% endif %}
                 {% endif %}
                 {% if user_obj.pk == request.user.pk %}
