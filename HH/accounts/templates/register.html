@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+{% block content %}
+    <div class="container cont">
+        <div class="row d-flex justify-content-center">
+            <div class="col-7 card text-bg-light form-margins">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% bootstrap_form form %}
+                    <div class="form_row">
+                        {% bootstrap_button button_type="submit" content='Зарегестрироваться' %}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="application/javascript"></script>
+    <script type="application/javascript">
+        let label = document.querySelectorAll('label')
+        const placeholder = document.getElementById('id_username')
+        const role1 = document.getElementById('id_user_role_1')
+        const role2 = document.getElementById('id_user_role_2')
+
+        role1.addEventListener('click', function () {
+            label[4].innerText = 'Имя компании'
+            placeholder.placeholder = 'Имя компании'
+        });
+
+        role2.addEventListener('click', function () {
+            label[4].innerText = 'Имя пользователя'
+            placeholder.placeholder = 'Имя пользователя'
+        })
+    </script>
+{% endblock %}

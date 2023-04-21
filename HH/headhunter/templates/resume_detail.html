@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% load static %}
+{% load django_bootstrap5 %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="resume_block">
+            <h3 class="mt-3 vacancy_title">Резюме: <b>{{ resume.name }}</b></h3>
+            <div class="post-details2  mb-50">
+                <div class="company-img company-img-details">
+                    <a href="{% url 'user_profile' resume.author_id %}"><img
+                            src="{{ resume.author.avatar.url }}" style="width: 85px; height: 85px"
+                            alt=""></a>
+                </div>
+                <div class="job-tittle">
+                    <a href="{% url 'user_profile' resume.author_id %}">
+                        <h4>{{ resume.author.username }}</h4>
+                    </a>
+                    <ul>
+                        <li>Категория {{ resume.category }}</li>
+
+                        <li>Желаемая зп {{ resume.salary }}</li>
+                    </ul>
+                </div>
+                <div class="small-section-tittle">
+                    <h4>Контакты:</h4>
+                </div>
+                <ul>
+                    <li>Telegram <b>{{ resume.telegram }}</b></li>
+                    <li>Linkedin <b>{{ resume.linkedin }}</b></li>
+                    <li>Facebook <b>{{ resume.facebook }}</b></li>
+                    <li>Email <b>{{ resume.email }}</b></li>
+                    <li>Телефон <b>{{ resume.phone_number }}</b></li>
+                </ul>
+            </div>
+            <p class="reload_p">Обновлена: <b>{{ resume.updated_at|date:"d-m-Y H:i" }} </b>
+                {% if user.is_authenticated %}
+                {% if perms.core.change_resume or resume.author == request.user %}
+                <a class="reload_btn" href="{% url 'resume_renew' resume.pk%}">Обновить <i
+                        class="fa-solid fa-rotate"></i></a>
+                {% endif %}
+                {% endif %}</p>
+            {% if user.is_authenticated %}
+            <div class="resume_link_block">
+                {% if perms.core.change_resume or resume.author == request.user %}
+                <a href="{% url 'resume_update' resume.pk %}" class="genric-btn primary circle">Редактировать</a>
+                {% endif %}
+                <button id="response_resume" class="genric-btn primary circle">Оставить отклик</button>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<div id="responseModalResume" class="modal">
+    <div class="modal-content"
+         style="background-color: white; margin: 10% auto; padding: 20px; width: 80%; border: 1px solid#888">
+        <div>
+            <h4 class="register_title">Оставить отклик <span id="modalResponseResume"
+                                                             class="close">&times;</span>
+            </h4>
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="form">
+                    <label class="form-label" for="id_message">Сообщение</label>
+                    <input type="text" name="message" placeholder="Введите сообщение" class="form-control" required
+                           id="id_message" value="Приветствуем! Хотим заинтересовать вас вакансией">
+                    <label class="form-label" for="select_resume">Выберете вакансию</label>
+                    <select class="form-select" aria-label="Default select example" id="select_resume">
+                        {% for v in vacancy %}
+                            <option value="{{ v.pk }}" class="option">{{ v.name }}</option>
+                        {% endfor %}
+                        
+                    </select>
+
+                </div>
+                <button id="send_response" class="genric-btn primary circle mt-10">Отправить</button>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+  let response_b = $('#response_resume');
+let response_m = $('#responseModalResume');
+response_b.on('click', function () {
+    response_m[0].style.display = "block";
+});
+
+let resume_id = window.location.pathname.split("/").pop();
+console.log(resume_id)
+let closeResponseModalResume = document.getElementById('modalResponseResume')
+closeResponseModalResume.onclick = function () {
+    response_m[0].style.display = "none";
+}
+
+let send_response = $('#send_response')
+send_response.on('click', function () {
+    let vacancy_id = $('#select_resume').val()
+    let message_input = $('#id_message').val()
+    $.ajax({
+        type: 'POST',
+        url: 'responces/add',
+        data: {
+            'vacancy': vacancy_id,
+            'resume': resume_id,
+            'message': message_input,
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+
+        },
+        success: function () {
+            alert('Ваш отклик добавлен!');
+            response_m[0].style.display = "none";
+        },
+        error: function () {
+            alert('Вы уже оставляли отклик');
+            response_m[0].style.display = "none";
+        }
+    });
+});
+
+
+</script>
+{% endblock %}

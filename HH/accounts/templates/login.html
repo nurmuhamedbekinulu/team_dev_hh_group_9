@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% block content %}
+    <div class="container cont">
+        <div class="row d-flex justify-content-center">
+            <div class="col-7 card text-bg-light form-margins">
+                <form method="post">
+                    {% csrf_token %}
+                    {% bootstrap_form form %}
+                    <div class="form_row">
+                        {% bootstrap_button button_type="submit" content='Войти' %}
+                        <a href="{% url 'register' %}">
+                            <button type="button" class="btn btn-primary">Зарегестрироваться</button>
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
