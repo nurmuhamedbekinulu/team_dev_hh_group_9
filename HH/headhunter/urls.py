@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import IndexView, VacancyCreate, VacancyDetail, VacancyUpdate, vacancy_renew, ResumeUpdate, ResumeCreate, ResumeDetail
+from .views import IndexView, VacancyCreate, VacancyDetail, VacancyUpdate, vacancy_renew, resume_renew, ResumeUpdate, ResumeCreate, ResumeDetail
 
 urlpatterns = [
     path('', IndexView.as_view(), name='main'),
@@ -10,4 +10,5 @@ urlpatterns = [
     path('resume/update/<int:pk>', ResumeUpdate.as_view(), name='resume_update'),
     path('resume/add', ResumeCreate.as_view(), name='add_resume'),
     path('resume/<int:pk>', ResumeDetail.as_view(), name='resume_detail'),
+    path('resume/renew/<int:pk>', resume_renew, name='resume_renew'),
 ]

@@ -81,4 +81,18 @@ class ResumeUpdate(UpdateView):
     
     
 class ResumeDetail(DetailView):
-    pass
+    model = Resume
+    template_name = "resume_detail.html"
+    context_object_name = 'resume'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+    
+    
+def resume_renew(request, *args, **kwargs):
+    resume = get_object_or_404(Resume, pk=kwargs['pk'])
+    resume.updated_at = timezone.now()
+    resume.save()
+
+    return redirect('resume_detail', pk=kwargs['pk'])
