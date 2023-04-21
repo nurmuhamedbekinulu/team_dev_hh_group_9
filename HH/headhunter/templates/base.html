@@ -17,14 +17,6 @@
           <a class="navbar-brand" href="/">Headhunter</a>
           <div style="display: flex;">
             <ul class="navbar-nav">
-              {% if request.user.is_authenticated %}
- 
-              {% endif %}
-              {% if perms.auth.view_user or request.user.is_superuser %}
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Users</a>
-              </li>
-              {% endif %}
             </ul>
             <form action="#" method="get" class="form-inline pull-xs-right" style="display: flex;">
               {% csrf_token %}

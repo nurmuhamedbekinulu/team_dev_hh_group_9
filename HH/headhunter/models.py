@@ -31,6 +31,9 @@ class Vacancy(models.Model):
         verbose_name_plural = 'Вакансии'
         ordering = ['-updated_at']
         
+    def __str__(self):
+        return f'{self.name}'
+        
         
 class Resume(models.Model):
     name = models.CharField(max_length=200, verbose_name='Название резюме', null=True, blank=True)
@@ -49,4 +52,17 @@ class Resume(models.Model):
 
     def __str__(self):
         return f'{self.author}'
+    
+    
+class Response(models.Model):
+    vacancy = models.ForeignKey(Vacancy, on_delete=models.CASCADE)
+    resume = models.ForeignKey(Resume, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
+
+
+class Message(models.Model):
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    message = models.ForeignKey(Response, on_delete=models.CASCADE, related_name='messages')
+    created = models.DateTimeField(auto_now_add=True)
+    text = models.TextField(max_length=500)
     

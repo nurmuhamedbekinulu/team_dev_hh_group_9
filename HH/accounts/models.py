@@ -10,7 +10,7 @@ class Profile(AbstractUser):
                               unique=True,
                               blank=True)
     avatar = models.ImageField(null=True, blank=True,
-                               upload_to='avatars',
+                               upload_to='uploads',
                                verbose_name='Аватар',
                                default='/Default.png')
     username = models.CharField(verbose_name='Имя пользователя',

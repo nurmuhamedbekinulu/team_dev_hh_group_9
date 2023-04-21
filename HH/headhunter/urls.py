@@ -1,5 +1,7 @@
 from django.urls import path
-from .views import IndexView, VacancyCreate, VacancyDetail, VacancyUpdate, vacancy_renew, resume_renew, ResumeUpdate, ResumeCreate, ResumeDetail
+from .views import *
+
+
 
 urlpatterns = [
     path('', IndexView.as_view(), name='main'),
@@ -11,4 +13,7 @@ urlpatterns = [
     path('resume/add', ResumeCreate.as_view(), name='add_resume'),
     path('resume/<int:pk>', ResumeDetail.as_view(), name='resume_detail'),
     path('resume/renew/<int:pk>', resume_renew, name='resume_renew'),
+    path('responces', ResponseList.as_view(), name='response_list'),
+    path('resume/responces/add', AddResponseView.as_view(), name='response_add'),
+    path('send/message/<int:pk>', CreateMessageToResponse.as_view(), name='send_message'),
 ]
