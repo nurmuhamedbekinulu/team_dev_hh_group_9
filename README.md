@@ -8,4 +8,4 @@
 
 
 Соискатели
-Логин manager@mmm.mm Пароль mmm
+Логин John@mail.ru Пароль John
